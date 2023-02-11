@@ -3,6 +3,7 @@ package fraudulentactivitynotifications
 import (
 	"fmt"
 	"log"
+	"sort"
 )
 
 // const days = 3
@@ -27,17 +28,14 @@ func Fraudulentactivitynotifications() {
 	days2 := 4
 	// getMEdian := getMedian(debits, days)
 	result2 := activityNotifications(debits2, days2)
-	fmt.Println("debit test 1 :", debits2)
-	fmt.Println("days test 3 :", days2)
-	fmt.Println("hasil test 1 :", result2)
+	fmt.Println("debit test 2 :", debits2)
+	fmt.Println("days test 2 :", days2)
+	fmt.Println("hasil test 2 :", result2)
 
 	fmt.Println("================")
 	// copntoh test 3
 	debits3 := []int{10, 20, 30, 40, 50}
 	days3 := 3
-
-	// notif literasi-1 = 1,
-	// notif literasi-2 = 1,
 
 	// getMEdian := getMedian(debits, days)
 	result3 := activityNotifications(debits3, days3)
@@ -47,7 +45,7 @@ func Fraudulentactivitynotifications() {
 
 }
 
-func getMedian(countArr []int, days int) int {
+func getMedianv2(countArr []int, days int) int {
 	var sum = 0
 	total := 0
 	// log.Println("get median")
@@ -80,37 +78,81 @@ func getMedian(countArr []int, days int) int {
 func activityNotifications(debits []int, days int) int {
 
 	//Return if d is too much
-	if days+1 >= len(debits) {
+	if days+1 > len(debits) {
 		return 0
 	}
 
-	// fmt.Println("debit : ", debits)
-	// fmt.Println("days : ", days)
-
-	countArr := make([]int, 210)
 	notices := 0
+	var median float64
 
-	for i := 0; i < days; i++ {
-		countArr[debits[i]]++
-	}
+	// looping for all debit
+	for i := 0; i < len(debits); i++ {
 
-	for i := days; i < len(debits); i++ {
-		getMedian := getMedian(countArr, days)
-
-		if debits[i] >= getMedian {
-			return notices + 1
-		}
-
-		if i == len(debits)-1 {
+		// chekc condition if days > debit
+		if days+1 > len(debits) {
 			break
 		}
 
-		countArr[debits[i-days]]--
-		countArr[debits[i]]++
+		// initialize array for check median
+		var countArrForMedian = make([]int, 0)
+		if days+i < len(debits) {
+
+			// get data array to check median
+			for j := 0; j < days; j++ {
+				// countArr[debits[i]]++
+
+				// check if data == total len debit
+				if i+j == len(debits) {
+					break
+
+				}
+
+				countArrForMedian = append(countArrForMedian, debits[i+j])
+
+			}
+		}
+
+		// check array median lebih besar dari 0
+		if len(countArrForMedian) > 0 {
+
+			// get median
+			median = getMedian(countArrForMedian)
+
+			// check jika median < debit
+			if float64(debits[i+days]) >= 2*median {
+				notices = notices + 1
+			}
+
+			// check median > debit
+			if float64(debits[i+days]) < 2*median {
+				notices = notices + 0
+			}
+
+		}
 
 	}
-	// fmt.Println(countArr)
-	// fmt.Println(notices)
+
 	return notices
+
+}
+
+func getMedian(arrayForMedian []int) float64 {
+
+	sort.Ints(arrayForMedian)
+
+	var median float64
+	l := len(arrayForMedian)
+	if l == 0 {
+		return 0
+	} else if l%2 == 0 {
+
+		duaNilaiTengah := arrayForMedian[l/2-1] + arrayForMedian[l/2]
+
+		median = float64(float64(duaNilaiTengah) / 2)
+	} else {
+		median = float64(arrayForMedian[l/2])
+	}
+
+	return median
 
 }
