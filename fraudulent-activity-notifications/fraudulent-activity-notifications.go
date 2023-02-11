@@ -45,36 +45,6 @@ func Fraudulentactivitynotifications() {
 
 }
 
-func getMedianv2(countArr []int, days int) int {
-	var sum = 0
-	total := 0
-	// log.Println("get median")
-
-	for i := 0; i < len(countArr); i++ {
-
-		sum += countArr[i]
-
-		if sum*2 == days {
-
-			total = 1*2 + 1
-			// fmt.Println("sum : ", sum)
-			// fmt.Println("get median : ", total)
-			return total
-		}
-
-		if sum*2 > days {
-			total = 1 * 2
-			// fmt.Println("sum : ", sum)
-			// fmt.Println("get median : ", total)
-			return total
-		}
-
-	}
-
-	return total
-
-}
-
 func activityNotifications(debits []int, days int) int {
 
 	//Return if d is too much
