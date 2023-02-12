@@ -2,15 +2,12 @@ package fraudulentactivitynotifications
 
 import (
 	"fmt"
-	"log"
 	"sort"
 )
 
 // const days = 3
 
 func Fraudulentactivitynotifications() {
-
-	log.Println("hehehe")
 
 	// copntoh test 1
 	debits := []int{2, 3, 4, 2, 3, 6, 8, 4, 5}
